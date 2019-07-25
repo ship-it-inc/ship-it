@@ -1,0 +1,41 @@
+export default (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
+    },
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+    },
+    role: {
+      type: DataTypes.ENUM(['admin', 'subscriber'])
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: {
+        msg: 'This email address has been taken.'
+      },
+      allowNull: false,
+      validate: {
+        isEmail: {
+          msg: 'Please enter a valid email address. Example: your@gmail.com'
+        }
+      }
+    },
+  }, {});
+  User.associate = (models) => {
+    User.hasOne(models.Subscription, {
+      oreignKey: 'userId',
+      as: 'user'
+    });
+    User.hasMany(models.Order, {
+      foreignKey: 'userId',
+      as: 'user'
+    });
+  };
+  return User;
+};
