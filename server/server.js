@@ -2,6 +2,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import v1Routes from './routes/api/v1';
+import passport from './services/passport';
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.json());
+passport(app);
+app.use(v1Routes);
 
 // / catch 404 and forward to error handler
 app.use((req, res, next) => {

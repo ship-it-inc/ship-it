@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasOne(models.Subscription, {
       oreignKey: 'userId',
-      as: 'user'
+      as: 'subscriber'
     });
     User.hasMany(models.Order, {
       foreignKey: 'userId',
