@@ -1,7 +1,7 @@
 
 export default {
   up: (queryInterface, Sequelize) => {
-    queryInterface.createTable('Subscriptions', {
+    return queryInterface.createTable('Subscriptions', {
       id: {
         allowNull: false,
         primaryKey: true,

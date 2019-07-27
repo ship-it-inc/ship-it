@@ -4,6 +4,7 @@
     "browser": true,
     "es6": true,
     "node": true,
+    "mocha": true
   },
   "extends": ["airbnb", "eslint:recommended"],
   "parser": "babel-eslint",
