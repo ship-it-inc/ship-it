@@ -12,10 +12,6 @@ export default (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    role: {
-      type: DataTypes.ENUM(['subscriber', 'admin']),
-      allowNull: false,
     }
   }, {});
   Order.associate = (models) => {

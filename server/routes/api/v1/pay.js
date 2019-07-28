@@ -8,7 +8,7 @@ const payRouter = Router();
 payRouter.get('/pay', (req, res) => {
   const data = {
     customer_email: 'user@example.com',
-    amount: 300,
+    amount: 100000,
     currency: 'NGN',
     txref: getRandomString(),
     PBFPubKey: process.env.RAVE_KEY,

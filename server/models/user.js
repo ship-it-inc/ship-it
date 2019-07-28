@@ -12,7 +12,8 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     role: {
-      type: DataTypes.ENUM(['admin', 'subscriber'])
+      type: DataTypes.ENUM(['admin', 'subscriber']),
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
