@@ -75,7 +75,7 @@ export default class GoogleLogin {
    * @param {object} res - response object
    * @returns {function} Anonymous
    */
-  static googleCallback(req, res) {
+  static async googleCallback(req, res) {
     const {
       user: { token }, user: { isNewUser }, user: { wrongEmail }, user: { userId }
     } = req;
@@ -87,18 +87,18 @@ export default class GoogleLogin {
     }
     if (isNewUser) {
       const { Subscription } = models;
-      Subscription.create({
+      await Subscription.create({
         userId,
         amount: 0,
       });
       return res.status(201).json({
-        success: true,
+        status: 'success',
         message: 'Registration Successful',
         token,
       });
     }
     return res.status(200).json({
-      success: true,
+      status: 'success',
       message: 'Login Successful',
       token,
     });
