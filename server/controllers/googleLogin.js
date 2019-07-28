@@ -57,6 +57,7 @@ export default class GoogleLogin {
         const token = JWTHelper.generateToken(user, duration);
         userData.token = token;
         userData.isNewUser = created;
+        userData.userId = user.id;
         done(null, userData);
       })
         .catch((err) => {
@@ -75,7 +76,9 @@ export default class GoogleLogin {
    * @returns {function} Anonymous
    */
   static googleCallback(req, res) {
-    const { user: { token }, user: { isNewUser }, user: { wrongEmail } } = req;
+    const {
+      user: { token }, user: { isNewUser }, user: { wrongEmail }, user: { userId }
+    } = req;
     if (wrongEmail) {
       return res.status(403).json({
         success: false,
@@ -83,6 +86,11 @@ export default class GoogleLogin {
       });
     }
     if (isNewUser) {
+      const { Subscription } = models;
+      Subscription.create({
+        userId,
+        amount: 0,
+      });
       return res.status(201).json({
         success: true,
         message: 'Registration Successful',
