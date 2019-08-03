@@ -19,6 +19,27 @@ class Orders {
     try {
       const { userId, description, orderType } = req.body;
       const { Order, Subscription } = models;
+
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999);
+      const orderExist = await Order.findOne({
+        where: {
+          userId,
+          createdAt: {
+            [Op.between]: [startOfDay, endOfDay]
+          }
+
+        }
+      });
+      if (orderExist) {
+        return res.status(409).send({
+          status: 'error',
+          message: 'The user already have an order for today',
+        });
+      }
       const userOrder = await Order.create({
         userId,
         description,
