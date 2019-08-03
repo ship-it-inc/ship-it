@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import models from '../models';
 import paginationHelper from '../helpers/paginationHelper';
+import { startOfDay, endOfDay } from '../helpers/dateRange';
 import { ORDER_AMOUNT } from '../helpers/constants';
 
 /**
@@ -19,12 +20,6 @@ class Orders {
     try {
       const { userId, description, orderType } = req.body;
       const { Order, Subscription } = models;
-
-      const startOfDay = new Date();
-      startOfDay.setHours(0, 0, 0, 0);
-
-      const endOfDay = new Date();
-      endOfDay.setHours(23, 59, 59, 999);
       const orderExist = await Order.findOne({
         where: {
           userId,
