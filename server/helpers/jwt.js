@@ -84,7 +84,7 @@ class JWTHelper {
     if (req.user.role !== ADMIN) {
       return res.status(403).json({
         status: 'error',
-        message: 'Authentication failed: You are not allowed to add orders.'
+        message: 'Authentication failed: You are not an admin'
       });
     }
     return next();

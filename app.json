@@ -1,6 +1,6 @@
 {
   "addons": [
-
+    "heroku-postgresql"
   ],
   "buildpacks": [
     {
@@ -8,11 +8,28 @@
     }
   ],
   "env": {
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_CALLBACK_URL": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "required": true
+    },
+    "SECRET": {
+      "required": true
+    },
+    "RAVE_KEY": {
+      "required": true
+    },
+    "NODE_ENV": "staging"
   },
   "formation": {
   },
   "name": "ship-it",
   "scripts": {
+    "postdeploy": "npm run db:migrate"
   },
   "stack": "heroku-18"
 }
