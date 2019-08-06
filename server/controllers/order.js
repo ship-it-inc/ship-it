@@ -24,7 +24,7 @@ class Orders {
         where: {
           userId,
           createdAt: {
-            [Op.between]: [startOfDay, endOfDay]
+            [Op.between]: [startOfDay(), endOfDay()]
           }
 
         }

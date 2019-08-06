@@ -1,14 +1,15 @@
 import { Op } from 'sequelize';
 import models from '../models';
 import paginationHelper from '../helpers/paginationHelper';
+import { startOfDay, endOfDay } from '../helpers/dateRange';
 
 
 /**
-* @description class will implement functionalities for order history
+* @description class will implement functionalities for user
 *
 * @class User
 */
-class User {
+class UserController {
   /**
    * @param {object} req - Request sent to the route
    * @param {object} res - Response sent from the controller
@@ -48,6 +49,41 @@ class User {
       return next(error);
     }
   }
+
+  /**
+   * @param {object} req - Request sent to the route
+   * @param {object} res - Response sent from the controller
+   * @param {object} next - Error handler
+   * @returns {object} - object representing response message
+   */
+  static async getAllUser(req, res, next) {
+    try {
+      const { User, Order } = models;
+      const allUsers = await User.findAll({
+        include: [
+          {
+            model: Order,
+            as: 'order',
+            required: false,
+            where: {
+              createdAt: {
+                [Op.between]: [startOfDay(), endOfDay()]
+              }
+            },
+          }
+
+        ],
+
+      });
+      return res.status(200).send({
+        success: true,
+        message: 'Users retrieved successful',
+        allUsers
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
-export default User;
+export default UserController;
