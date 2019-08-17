@@ -84,6 +84,32 @@ class UserController {
       return next(error);
     }
   }
+
+  /**
+   * @param {object} req - Request sent to the route
+   * @param {object} res - Response sent from the controller
+   * @param {object} next - Error handler
+   * @returns {object} - object representing response message
+   */
+  static async getUserBalance(req, res, next) {
+    try {
+      const { Subscription } = models;
+      const userId = req.user.id || req.params.id;
+      let userBalance = await Subscription.findOne({
+        where: {
+          userId
+        }
+      });
+      userBalance = userBalance.amount || 0;
+      return res.status(200).send({
+        success: true,
+        message: 'Balance retrieved successful',
+        userBalance
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 export default UserController;

@@ -22,4 +22,9 @@ userRouter.get('/users/all',
   JWTHelper.authenticateAdmin,
   UserController.getAllUser);
 
+userRouter.get('/balance',
+  JWTHelper.authenticateUser,
+  UserController.getUserBalance);
+
+
 export default userRouter;
