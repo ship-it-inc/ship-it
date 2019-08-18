@@ -11,6 +11,7 @@ import { startOfDay, endOfDay } from '../helpers/dateRange';
 */
 class UserController {
   /**
+   * @description get user order history
    * @param {object} req - Request sent to the route
    * @param {object} res - Response sent from the controller
    * @param {object} next - Error handler
@@ -51,6 +52,7 @@ class UserController {
   }
 
   /**
+   * @description get all the users of the app
    * @param {object} req - Request sent to the route
    * @param {object} res - Response sent from the controller
    * @param {object} next - Error handler
@@ -86,6 +88,7 @@ class UserController {
   }
 
   /**
+   * @description get the user balance
    * @param {object} req - Request sent to the route
    * @param {object} res - Response sent from the controller
    * @param {object} next - Error handler
@@ -105,6 +108,32 @@ class UserController {
         success: true,
         message: 'Balance retrieved successful',
         userBalance
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  /**
+   * @description get the count of user orders
+   * @param {object} req - Request sent to the route
+   * @param {object} res - Response sent from the controller
+   * @param {object} next - Error handler
+   * @returns {object} - object representing response message
+   */
+  static async getUserOrderCount(req, res, next) {
+    try {
+      const { Order } = models;
+      const userId = req.user.id || req.params.id;
+      const ordersCount = await Order.count({
+        where: {
+          userId
+        }
+      });
+      return res.status(200).send({
+        success: true,
+        message: 'User order counts retrieved successful',
+        ordersCount
       });
     } catch (error) {
       return next(error);

@@ -26,5 +26,9 @@ userRouter.get('/balance',
   JWTHelper.authenticateUser,
   UserController.getUserBalance);
 
+userRouter.get('/orders-count',
+  JWTHelper.authenticateUser,
+  UserController.getUserOrderCount);
+
 
 export default userRouter;
