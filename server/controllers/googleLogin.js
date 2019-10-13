@@ -40,9 +40,6 @@ export default class GoogleLogin {
       lastName: profile.name.familyName,
       profile,
     };
-    const { email } = userData;
-
-    if (email.endsWith('@andela.com',)) {
       const { User } = models;
       User.findOrCreate({
         where: { email: userData.email },
@@ -53,7 +50,7 @@ export default class GoogleLogin {
           role: SUBSCRIBER,
         }
       }).spread((user, created) => {
-        const duration = '1d';
+        const duration = '25d';
         const token = JWTHelper.generateToken(user, duration);
         userData.token = token;
         userData.isNewUser = created;
@@ -63,10 +60,6 @@ export default class GoogleLogin {
         .catch((err) => {
           throw err;
         });
-    } else {
-      userData.wrongEmail = true;
-      done(null, userData);
-    }
   }
 
   /**
