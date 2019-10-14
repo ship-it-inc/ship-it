@@ -40,6 +40,7 @@ export default class GoogleLogin {
       lastName: profile.name.familyName,
       profile,
     };
+      const { email } = userData;
       const { User } = models;
       User.findOrCreate({
         where: { email: userData.email },
